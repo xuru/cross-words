@@ -3,13 +3,13 @@ cross-words' Domain Specific Language (DSL)
 
 cross-words is based on a simple yet powerful Domain Specific Language. When used along with Rasa NLU/Core, it uses 3 concepts:
 
-intents: the objective of the chatbot's user (e.g. ask to book a restaurant, confirm a chatbot inquiry etc.)
-entities: specific parts of a sentence containing key information (e.g. which restaurant to book, how many people etc.)
-aliases: lists of synonyms that can be used interchangeably
+- **intents:** the objective of the chatbot's user (e.g. ask to book a restaurant, confirm a chatbot inquiry etc.)
+- **entities:** specific parts of a sentence containing key information (e.g. which restaurant to book, how many people etc.)
+- **aliases:** lists of synonyms that can be used interchangeably
 More details are available at Rasa NLU
 
 Given a configuration file (.txt) containing all of the above, cross-words is able to generate many training sentences/conversations using combinations of sentence parts.
-
+git 
 cross-words configuration files look like this:
 
 .. code-block:: yaml
