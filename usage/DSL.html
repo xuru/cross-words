@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2.1. cross-words’ Domain Specific Language (DSL) &mdash; cross-words 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.2. Generating training files with cross-words" href="generating.html" />
+    <link rel="prev" title="2. Usage" href="usage.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cross-words
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install/install.html">1. Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="usage.html">2. Usage</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. cross-words’ Domain Specific Language (DSL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generating.html">2.2. Generating training files with cross-words</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../functioning/functioning.html">3. Functioning</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cross-words</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="usage.html">2. Usage</a> &raquo;</li>
+        
+      <li>2.1. cross-words’ Domain Specific Language (DSL)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/usage/DSL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cross-words-domain-specific-language-dsl">
+<h1>2.1. cross-words’ Domain Specific Language (DSL)<a class="headerlink" href="#cross-words-domain-specific-language-dsl" title="Permalink to this headline">¶</a></h1>
+<p>cross-words is based on a simple yet powerful Domain Specific Language. When used along with Rasa NLU/Core, it uses 3 concepts:</p>
+<p>intents: the objective of the chatbot’s user (e.g. ask to book a restaurant, confirm a chatbot inquiry etc.)
+entities: specific parts of a sentence containing key information (e.g. which restaurant to book, how many people etc.)
+aliases: lists of synonyms that can be used interchangeably
+More details are available at Rasa NLU</p>
+<p>Given a configuration file (.txt) containing all of the above, cross-words is able to generate many training sentences/conversations using combinations of sentence parts.</p>
+<p>cross-words configuration files look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Could I have the number of @[subject_filter] ~[owners] in @[geo_filter] @[time_filter]?</span>
+
+
+<span class="l l-Scalar l-Scalar-Plain">@[time_filter]</span>
+    <span class="l l-Scalar l-Scalar-Plain">this month</span>
+    <span class="l l-Scalar l-Scalar-Plain">this year</span>
+    <span class="l l-Scalar l-Scalar-Plain">LTD</span>
+        <span class="l l-Scalar l-Scalar-Plain">life to date</span>
+        <span class="l l-Scalar l-Scalar-Plain">up to date</span>
+    <span class="l l-Scalar l-Scalar-Plain">since release</span>
+        <span class="l l-Scalar l-Scalar-Plain">since launch</span>
+    <span class="l l-Scalar l-Scalar-Plain">since beginning of fiscal year</span>
+
+<span class="l l-Scalar l-Scalar-Plain">@[geo_filter]</span>
+    <span class="l l-Scalar l-Scalar-Plain">France</span>
+    <span class="l l-Scalar l-Scalar-Plain">Germany</span>
+    <span class="l l-Scalar l-Scalar-Plain">US</span>
+        <span class="l l-Scalar l-Scalar-Plain">United States</span>
+        <span class="l l-Scalar l-Scalar-Plain">America</span>
+    <span class="l l-Scalar l-Scalar-Plain">Canada</span>
+    <span class="l l-Scalar l-Scalar-Plain">Italy</span>
+
+<span class="l l-Scalar l-Scalar-Plain">@[subject_filter]</span>
+    <span class="l l-Scalar l-Scalar-Plain">birds</span>
+        <span class="l l-Scalar l-Scalar-Plain">parrots</span>
+        <span class="l l-Scalar l-Scalar-Plain">owl</span>
+    <span class="l l-Scalar l-Scalar-Plain">dogs</span>
+    <span class="l l-Scalar l-Scalar-Plain">cats</span>
+        <span class="l l-Scalar l-Scalar-Plain">persian</span>
+
+
+<span class="l l-Scalar l-Scalar-Plain">~[owners]</span>
+    <span class="l l-Scalar l-Scalar-Plain">owners</span>
+    <span class="l l-Scalar l-Scalar-Plain">possessors</span>
+</pre></div>
+</div>
+<p>If asked for sentences, cross-words will generate a .md file whose first lines will be:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [birds](subject_filter) possessors in [Canada](geo_filter) [life to date](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [parrots](subject_filter) possessors in [United States](geo_filter) [since release](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [owl](subject_filter) possessors in [Italy](geo_filter) [up to date](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [owl](subject_filter) possessors in [Italy](geo_filter) [since release](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [dogs](subject_filter) owners in [United States](geo_filter) [LTD](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [dogs](subject_filter) owners in [Canada](geo_filter) [this year](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [cats](subject_filter) owners in [France](geo_filter) [this year](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [cats](subject_filter) owners in [US](geo_filter) [since release](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [cats](subject_filter) owners in [America](geo_filter) [this month](time_filter)?</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Could I have the number of [cats](subject_filter) owners in [Canada](geo_filter) [life to date](time_filter)?</span>
+</pre></div>
+</div>
+<p>This file is then ready to use as training input to Rasa NLU.</p>
+<p>If asked for stories:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>## Genereated Story 815310784239368
+* acquisition{}
+    - utter_ask_time_filter
+* acquisition{&quot;time_filter&quot;: &quot;since beginning of fiscal year&quot;}
+    - slot{&quot;time_filter&quot;: &quot;since beginning of fiscal year&quot;}
+    - utter_ask_geo_filter
+* acquisition{&quot;geo_filter&quot;: &quot;America&quot;}
+    - slot{&quot;geo_filter&quot;: &quot;America&quot;}
+    - utter_ask_subject_filter
+* acquisition{&quot;subject_filter&quot;: &quot;dogs&quot;}
+    - slot{&quot;subject_filter&quot;: &quot;dogs&quot;}
+    - action_acquisition
+
+## Genereated Story 257661587723758
+* acquisition{&quot;time_filter&quot;: &quot;since release&quot;, &quot;geo_filter&quot;: &quot;Germany&quot;}
+    - slot{&quot;time_filter&quot;: &quot;since release&quot;}
+    - slot{&quot;geo_filter&quot;: &quot;Germany&quot;}
+    - utter_ask_subject_filter
+* acquisition{&quot;subject_filter&quot;: &quot;owl&quot;}
+    - slot{&quot;subject_filter&quot;: &quot;owl&quot;}
+    - action_acquisition
+
+## Genereated Story 877699493192194
+* acquisition{&quot;subject_filter&quot;: &quot;parrots&quot;}
+    - slot{&quot;subject_filter&quot;: &quot;parrots&quot;}
+    - utter_ask_time_filter
+* acquisition{&quot;time_filter&quot;: &quot;LTD&quot;}
+    - slot{&quot;time_filter&quot;: &quot;LTD&quot;}
+    - utter_ask_geo_filter
+* acquisition{&quot;geo_filter&quot;: &quot;France&quot;}
+    - slot{&quot;geo_filter&quot;: &quot;France&quot;}
+    - action_acquisition
+</pre></div>
+</div>
+<p>This file is then ready to use for training with Rasa Core.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generating.html" class="btn btn-neutral float-right" title="2.2. Generating training files with cross-words" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="usage.html" class="btn btn-neutral" title="2. Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Clément Choukroun, Alexandre Mourachko.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
