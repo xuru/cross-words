@@ -1,0 +1,34 @@
+%[sampleGetWeather]
+    will it be ~[adjective] in @[city] @[weatherDate]?
+    what kind of weather should I expect @[weatherDate] in @[city] please
+    tell me if it is going to rain @[weatherDate] in @[city]
+    What is the weather in @[city]?
+
+%[greet]
+    hello
+    hi
+    watsup dog
+
+
+@[weatherDate]
+    at the end of the day
+    tomorrow morning
+    this morning
+    this afternoon
+    today
+
+@[city]
+    rio de janeiro
+    tokyo
+    london
+    tel aviv
+    paris
+        IDF
+
+~[adjective]
+    sunny
+    rainy
+
+~[moment]
+    morning
+    afternoon
