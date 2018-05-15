@@ -43,13 +43,13 @@ def parse_input(input_path):
     # variable lines is a list of lists of strings (1 string = 1 line)
     lines = [p.splitlines() for p in paragraphs]
 
-    # removing space and tabs at beginnig of lines
+    # removing space and tabs at beginning of lines
     lines_cleaned = [[line.lstrip() for line in p] for p in lines]
 
     return lines_cleaned
 
 
-def populate_entry_dicts(lines_cleaned, grammar=["@", "~", "&"]):
+def populate_entry_dicts(lines_cleaned, grammar=None):
     """
     Summary
     ----------
@@ -57,8 +57,12 @@ def populate_entry_dicts(lines_cleaned, grammar=["@", "~", "&"]):
 
     Parameters
     ----------
-    lines:
+    lines_cleaned:
         List of lists as returned by parse_input
+    grammar:
+        list of keywords signaling configuration structure
+        (entities, aliases, intents)
+
 
     Returns
     -------
@@ -70,6 +74,8 @@ def populate_entry_dicts(lines_cleaned, grammar=["@", "~", "&"]):
 
     """
 
+    if grammar is None:
+        grammar = ["@", "~", "&"]
     intents_list = list()
     entities_dic = dict()
     aliases_dic = dict()

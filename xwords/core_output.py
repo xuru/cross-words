@@ -15,8 +15,8 @@ from .core_parse import parse_input, populate_entry_dicts
 from .core_process import generate_sentences, generate_stories
 
 
-def write_file(sentences, output_path="./xwords/outputs/training.txt", intent_string=None, 
-               for_story=False):
+def write_file(sentences, output_path="./xwords/outputs/training.txt",
+               intent_string=None, for_story=False):
     """
     Summary
     ----------
@@ -27,9 +27,9 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt", intent_st
     sentences:
         list of generated sentences to be written in the file
     intent_string:
-        string specifying the intent of sentences in the case of 
+        string specifying the intent of sentences in the case of
         Rasa NLU training file
-    file_name:
+    output_path:
         path (string) to the target generated file
     for_story:
         if True, writes output using Rasa Core's training format
@@ -57,7 +57,7 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt", intent_st
         print(len(sentences), "objects written in file", output_path)
 
 
-def write_sentences(sentences, output_path="./xwords/outputs/", intent_string=None, 
+def write_sentences(sentences, output_path="./xwords/outputs/", intent_string=None,
                     output_prefix='', training_ratio=1.0, for_story=False):
     """
     Summary
@@ -68,13 +68,15 @@ def write_sentences(sentences, output_path="./xwords/outputs/", intent_string=No
     ----------
     sentences:
         list of generated sentences to be written into a flat text file
-    intent_string:
-        string specifying the intent of sentences in the case of 
-        Rasa NLU training file
-    training_ratio:
-        percentage of sentences/conversations to be kept separate in a test set
     output_path:
         path to the desired location for generated files
+    intent_string:
+        string specifying the intent of sentences in the case of
+        Rasa NLU training file
+    output_prefix:
+        prefix for the output file
+    training_ratio:
+        percentage of sentences/conversations to be kept separate in a test set
     for_story:
         if True, writes output using Rasa Core's training format
         if False, writes output using Rasa NLU's training format
@@ -112,7 +114,7 @@ def write_sentences(sentences, output_path="./xwords/outputs/", intent_string=No
         write_file(testing_sentences, intent_string, output_test, for_story)
 
 
-def generate(input_path, output_path="./xwords/outputs/", output_prefix='', intent_string=None, 
+def generate(input_path, output_path="./xwords/outputs/", output_prefix='', intent_string=None,
              training_ratio=1.0, n_sub=None, for_story=False):
     """
     Summary
@@ -123,13 +125,22 @@ def generate(input_path, output_path="./xwords/outputs/", output_prefix='', inte
     ----------
     input_path:
         path to config file
+    output_path:
+        path to the desired location for generated files
+    output_prefix:
+        prefix for the output file
     intent_string:
-        string specifying the intent of sentences in the case of 
+        string specifying the intent of sentences in the case of
         Rasa NLU training file
     training_ratio:
         percentage of sentences/conversations to be kept separate in a test set
-    output_path:
-        path to the desired location for generated files
+    n_sub:
+        number of randomly selected sentences to subsample from the total
+        number of combinations. If None, returns the full set of sentence
+        combinations.
+    for_story:
+        bool to indicate whether the replacement should be done according to
+        Rasa Core scheme
 
     Returns
     -------

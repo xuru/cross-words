@@ -16,8 +16,7 @@ import random
 from .utils import unique, remove_grammar
 
 
-def replace_in_str(sentence, key, value, for_story=False,
-                   grammar=["%", "@", "~", "&"]):
+def replace_in_str(sentence, key, value, for_story=False, grammar=None):
     """
     Summary
     ----------
@@ -49,6 +48,8 @@ def replace_in_str(sentence, key, value, for_story=False,
 
     """
 
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     if for_story:  # true if replacing for Rasa Core format
         # replacing key by "key": "value"
         replacement = "\"" + remove_grammar(key, grammar) + \
@@ -65,19 +66,18 @@ def replace_in_str(sentence, key, value, for_story=False,
     return sentence.replace(key, replacement)
 
 
-def place_combinations(sentence, replacement_dic, for_story=False,
-                       grammar=["%", "@", "~", "&"]):
+def place_combinations(sentence, replacement_dic, for_story=False, grammar=None):
     """
     Summary
     ----------
-    Placing all combinations from a replacement dictionnary into a sentence
+    Placing all combinations from a replacement dictionary into a sentence
 
     Parameters
     ----------
     sentence:
         string to place combinations into
     replacement_dic:
-        base dictionnary to generate combinations from
+        base dictionary to generate combinations from
     for_story:
         bool to indicate whether the placement should be done according to
         Rasa Core scheme
@@ -94,6 +94,8 @@ def place_combinations(sentence, replacement_dic, for_story=False,
     """
 
     # grammar_pattern = "[%@~&]\[w+\]" # for default grammar
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     grammar_pattern = "[" + "".join(grammar) + r"]\[\w+\]"
 
     # getting placeholders in sentence while keeping order
@@ -130,8 +132,7 @@ def place_combinations(sentence, replacement_dic, for_story=False,
     return output
 
 
-def generate_sentences(intents_list, entities_dic, aliases_dic, n_sub=None,
-                       grammar=["%", "@", "~", "&"]):
+def generate_sentences(intents_list, entities_dic, aliases_dic, n_sub=None, grammar=None):
     """
     Summary
     ----------
@@ -164,6 +165,8 @@ def generate_sentences(intents_list, entities_dic, aliases_dic, n_sub=None,
     """
 
     # building all combinations of entities x aliases
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     entities_and_aliases = {**entities_dic, **aliases_dic}
     sentence_count = 0
     sentences = list()
@@ -186,7 +189,7 @@ def generate_sentences(intents_list, entities_dic, aliases_dic, n_sub=None,
         return sentences
 
 
-def generate_utter_actions(entities_dic, grammar=["%", "@", "~", "&"]):
+def generate_utter_actions(entities_dic, grammar=None):
     """
     Summary
     ----------
@@ -195,16 +198,21 @@ def generate_utter_actions(entities_dic, grammar=["%", "@", "~", "&"]):
     Parameters
     ----------
     entities_dic:
-        dictionnary of all entities in source config file, in the form
+        dictionary of all entities in source config file, in the form
         "entity": [list of all variants of that entity]
+    grammar:
+        list of keywords signaling configuration structure
+        (entities, aliases, intents)
 
     Returns
     -------
-    Dictionnary
+    Dictionary
         list of generated bot questions for all entities
 
     """
 
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     actions_dic = dict()
     for key in entities_dic.keys():
         actions_dic[key] = "utter_ask_" + remove_grammar(key, grammar)
@@ -223,14 +231,14 @@ def generate_empty_story(intent_string, entities_dic, actions_dic):
     intent_string:
         intent of the story to be generated
     entities_dic:
-        dictionnary of entities to prepare placeholders for in intent_string
+        dictionary of entities to prepare placeholders for in intent_string
     actions_dic:
-        dictionnary of actions as output by generate_utter_actions
+        dictionary of actions as output by generate_utter_actions
 
     Returns
     -------
     String
-        single story with empy placeholders
+        single story with empty placeholders
 
     """
 
@@ -244,7 +252,7 @@ def generate_empty_story(intent_string, entities_dic, actions_dic):
     entities_input = random.sample(list(entities_dic.keys()), n)
     entities_asked = [ent for ent in entities_dic if ent not in entities_input]
 
-    story = "## Genereated Story " + str(int(random.random()*10**15)) + "\n"
+    story = "## Generated Story " + str(int(random.random()*10**15)) + "\n"
     story += "* " + intent_string + "{" + ', '.join(entities_input) + "}\n"
 
     for ent in entities_input:
@@ -258,8 +266,7 @@ def generate_empty_story(intent_string, entities_dic, actions_dic):
     return story
 
 
-def generate_stories(intent_string, entities_dic, n_sub,
-                     grammar=["%", "@", "~", "&"]):
+def generate_stories(intent_string, entities_dic, n_sub, grammar=None):
     """
     Summary
     ----------
@@ -271,11 +278,14 @@ def generate_stories(intent_string, entities_dic, n_sub,
         intent of the stories to be generated
 
     entities_dic:
-        dictionnary of all entities to generate combinations
+        dictionary of all entities to generate combinations
     n_sub:
         number of randomly selected stories to subsample from the total
         number of combinations. If None, returns the full set of story
         combinations.
+    grammar:
+        list of keywords signaling configuration structure
+        (entities, aliases, intents)
 
     Returns
     -------
@@ -283,6 +293,8 @@ def generate_stories(intent_string, entities_dic, n_sub,
         List of all generated stories with combinations placed
 
     """
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     output_stories = list()
 
     if entities_dic != {}:

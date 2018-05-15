@@ -18,7 +18,7 @@ def unique(sequence):
 
     Parameters
     ----------
-    sequence
+    sequence:
         list to remove duplicates from
 
     Returns
@@ -31,7 +31,7 @@ def unique(sequence):
     return [e for e in sequence if not (e in seen or seen.add(e))]
 
 
-def remove_grammar(element, grammar=["%", "@", "~", "&"]):
+def remove_grammar(element, grammar=None):
     """
     Summary
     ----------
@@ -39,13 +39,18 @@ def remove_grammar(element, grammar=["%", "@", "~", "&"]):
 
     Parameters
     ----------
-    element
+    element:
         element to remove any grammar keyword from
+    grammar:
+        list of keywords signaling configuration structure
+        (entities, aliases, intents)
 
     Returns
     -------
         element cleaned from any grammar keyword
 
     """
+    if grammar is None:
+        grammar = ["%", "@", "~", "&"]
     reg = "[" + "".join(grammar) + "]"
     return str.strip(element, reg)
