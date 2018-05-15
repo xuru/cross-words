@@ -53,7 +53,7 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt",
 
 
 def write_sentences(sentences, output_path="./xwords/outputs/",
-                    training_ratio=1.0, for_story=False):
+                    output_prefix='', training_ratio=1.0, for_story=False):
     """
     Summary
     ----------
@@ -84,16 +84,28 @@ def write_sentences(sentences, output_path="./xwords/outputs/",
     sub_samp = sorted(random.sample(range(nb_sentences),
                       int(nb_sentences*training_ratio)))
     training_sentences = [sentences[k] for k in sub_samp]
-    write_file(training_sentences, output_path + "training.md", for_story)
+
+    # outputing into 'training.md' if no prefix is given
+    if output_prefix != '':
+        output_training = output_path + output_prefix + "_training.md"
+    else:
+        output_training = output_path + "training.md"
+    write_file(training_sentences, output_training, for_story)
+
     if training_ratio != 1.0:
         # case of split between training and testing set
         traintest_sep = sorted(list(set(range(nb_sentences)) - set(sub_samp)))
         testing_sentences = [sentences[k] for k in traintest_sep]
-        write_file(testing_sentences, output_path + "testing.md", for_story)
+        # outputing into 'test.md' if no prefix is given
+        if output_prefix != '':
+            output_test = output_path + output_prefix + "_testing.md"
+        else:
+            output_test = output_path + "testing.md"
+        write_file(testing_sentences, output_test, for_story)
 
 
-def generate(input_path, output_path="./xwords/outputs/", training_ratio=1.0,
-             n_sub=None, for_story=False):
+def generate(input_path, output_path="./xwords/outputs/", output_prefix='',
+             training_ratio=1.0, n_sub=None, for_story=False):
     """
     Summary
     ----------
@@ -125,4 +137,5 @@ def generate(input_path, output_path="./xwords/outputs/", training_ratio=1.0,
         output = generate_sentences(intents_list, entities_dic, aliases_dic,
                                     n_sub)
 
-    write_sentences(output, output_path, training_ratio, for_story)
+    write_sentences(output, output_path, output_prefix, training_ratio,
+                    for_story)

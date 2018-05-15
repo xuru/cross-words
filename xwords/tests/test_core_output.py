@@ -84,7 +84,7 @@ def test_generate_empty_story(output_file_empty_story):
 # testing number of lines returned
 def test_generate(output_file):
     with open(output_file, 'r') as generated_file:
-        assert sum((1 for l in generated_file)) == 768
+        assert sum((1 for l in generated_file)) == 684
 
 
 # testing number of lines returned
@@ -96,7 +96,7 @@ def test_generate_story(output_file_story):
 # testing number of lines returned
 def test_generate_testset(output_file_testset):
     with open(output_file_testset, 'r') as generated_file:
-        assert sum((1 for l in generated_file)) == 537
+        assert sum((1 for l in generated_file)) == 478
 
 
 # testing number of lines returned

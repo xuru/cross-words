@@ -11,4 +11,5 @@
 
 from xwords.core_output import generate
 
-generate("./xwords/tests/input_test.txt", n_sub=100, for_story=False)
+input_path = "./xwords/tests/input_test.txt"
+generate(input_path)
