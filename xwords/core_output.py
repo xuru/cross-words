@@ -15,7 +15,7 @@ from .core_parse import parse_input, populate_entry_dicts
 from .core_process import generate_sentences, generate_stories
 
 
-def write_file(sentences, intent_string=None, output_path="./xwords/outputs/training.txt",
+def write_file(sentences, output_path="./xwords/outputs/training.txt", intent_string=None, 
                for_story=False):
     """
     Summary
@@ -44,7 +44,7 @@ def write_file(sentences, intent_string=None, output_path="./xwords/outputs/trai
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, mode='w') as output_file:
-        if not for_story and intent_string!=None:
+        if not for_story and intent_string is not None:
             output_file.write("## intent:" + intent_string + "\n")
         for s in sentences:
             # using Rasa Core (conversations) or Rasa NLU (only sentences)
@@ -57,7 +57,7 @@ def write_file(sentences, intent_string=None, output_path="./xwords/outputs/trai
         print(len(sentences), "objects written in file", output_path)
 
 
-def write_sentences(sentences, intent_string=None, output_path="./xwords/outputs/",
+def write_sentences(sentences, output_path="./xwords/outputs/", intent_string=None, 
                     output_prefix='', training_ratio=1.0, for_story=False):
     """
     Summary
@@ -112,7 +112,7 @@ def write_sentences(sentences, intent_string=None, output_path="./xwords/outputs
         write_file(testing_sentences, intent_string, output_test, for_story)
 
 
-def generate(input_path, intent_string=None, output_path="./xwords/outputs/", output_prefix='',
+def generate(input_path, output_path="./xwords/outputs/", output_prefix='', intent_string=None, 
              training_ratio=1.0, n_sub=None, for_story=False):
     """
     Summary
