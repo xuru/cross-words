@@ -15,7 +15,7 @@ from .core_parse import parse_input, populate_entry_dicts
 from .core_process import generate_sentences, generate_stories
 
 
-def write_file(sentences, output_path="./xwords/outputs/training.txt",
+def write_file(sentences, intent_string=None, output_path="./xwords/outputs/training.txt",
                for_story=False):
     """
     Summary
@@ -26,6 +26,9 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt",
     ----------
     sentences:
         list of generated sentences to be written in the file
+    intent_string:
+        string specifying the intent of sentences in the case of 
+        Rasa NLU training file
     file_name:
         path (string) to the target generated file
     for_story:
@@ -41,6 +44,8 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt",
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, mode='w') as output_file:
+        if not for_story and intent_string!=None:
+            output_file.write("## intent:" + intent_string + "\n")
         for s in sentences:
             # using Rasa Core (conversations) or Rasa NLU (only sentences)
             # training format
@@ -52,7 +57,7 @@ def write_file(sentences, output_path="./xwords/outputs/training.txt",
         print(len(sentences), "objects written in file", output_path)
 
 
-def write_sentences(sentences, output_path="./xwords/outputs/",
+def write_sentences(sentences, intent_string=None, output_path="./xwords/outputs/",
                     output_prefix='', training_ratio=1.0, for_story=False):
     """
     Summary
@@ -63,6 +68,9 @@ def write_sentences(sentences, output_path="./xwords/outputs/",
     ----------
     sentences:
         list of generated sentences to be written into a flat text file
+    intent_string:
+        string specifying the intent of sentences in the case of 
+        Rasa NLU training file
     training_ratio:
         percentage of sentences/conversations to be kept separate in a test set
     output_path:
@@ -90,7 +98,7 @@ def write_sentences(sentences, output_path="./xwords/outputs/",
         output_training = output_path + output_prefix + "_training.md"
     else:
         output_training = output_path + "training.md"
-    write_file(training_sentences, output_training, for_story)
+    write_file(training_sentences, intent_string, output_training, for_story)
 
     if training_ratio != 1.0:
         # case of split between training and testing set
@@ -101,10 +109,10 @@ def write_sentences(sentences, output_path="./xwords/outputs/",
             output_test = output_path + output_prefix + "_testing.md"
         else:
             output_test = output_path + "testing.md"
-        write_file(testing_sentences, output_test, for_story)
+        write_file(testing_sentences, intent_string, output_test, for_story)
 
 
-def generate(input_path, output_path="./xwords/outputs/", output_prefix='',
+def generate(input_path, intent_string=None, output_path="./xwords/outputs/", output_prefix='',
              training_ratio=1.0, n_sub=None, for_story=False):
     """
     Summary
@@ -115,6 +123,9 @@ def generate(input_path, output_path="./xwords/outputs/", output_prefix='',
     ----------
     input_path:
         path to config file
+    intent_string:
+        string specifying the intent of sentences in the case of 
+        Rasa NLU training file
     training_ratio:
         percentage of sentences/conversations to be kept separate in a test set
     output_path:
@@ -132,10 +143,10 @@ def generate(input_path, output_path="./xwords/outputs/", output_prefix='',
     intents_list, entities_dic, aliases_dic = populate_entry_dicts(lines)
 
     if for_story:
-        output = generate_stories("acquisition", entities_dic, n_sub)
+        output = generate_stories(intent_string, entities_dic, n_sub)
     else:
         output = generate_sentences(intents_list, entities_dic, aliases_dic,
                                     n_sub)
 
-    write_sentences(output, output_path, output_prefix, training_ratio,
+    write_sentences(output, intent_string, output_path, output_prefix, training_ratio,
                     for_story)
