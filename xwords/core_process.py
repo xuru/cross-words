@@ -273,9 +273,7 @@ def generate_stories(intent_string, entities_dic, n_sub,
     entities_dic:
         dictionnary of all entities to generate combinations
     n_sub:
-        number of randomly selected stories to subsample from the total
-        number of combinations. If None, returns the full set of story
-        combinations.
+        number of randomly created stories
 
     Returns
     -------
