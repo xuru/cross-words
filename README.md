@@ -130,7 +130,7 @@ This file is then ready to use for training with Rasa Core.
 
 `cross-words` mainly comes with 2 functions: parse_input and generate. All other functions are implementation details.
 
-### generate(input_path, output_path="./xwords/outputs/", intent_string=None, training_ratio=1.0, n_sub=None, for_story=False)
+### generate(input_path, output_path="./xwords/outputs/", intent_string=None, output_prefix='', training_ratio=1.0, for_story=False, n_sub=None)
 This is the main function of `cross-words'.
 
 Given an input configuration file, it outputs all combinations of intents x entities x aliases into a .md file ready for training.
@@ -139,10 +139,11 @@ A few arguments allow to tune its behavior:
 
 - **input_path:** path to the configuration file *(string)*
 - **output_path:** path to the output folder where train/test files will be written *(string)*
-- **intent_string** string to specify intent at the beginning of sentence files (for Rasa NLU) or inside genereated stories (for Rasa Core)
+- **intent_string** string to specify intent at the beginning of sentence files (for Rasa NLU) or inside genereated stories (for Rasa Core) *(string)*
+- **output_prefix** string to specify beginning of names of files that are written *(string)*
 - **training_ratio:** ratio between train and test sets. If .7, 30% of all generated combinations will be reserved into a test file. If 1.0, no test file will be created. *(float)*
-- **n_sub:** number of sentences/stories (incl. test) to be taken as a subsample of all possible combinations of intents x entities x aliases *(int)* (required when generating stories for Rasa Core)
 - **for_story:** whether to generate sentences (for Rasa NLU) or stories (for Rasa Core) *(bool)*
+- **n_sub:** number of sentences/stories (incl. test) to be taken as a subsample of all possible combinations of intents x entities x aliases *(int)* (required when generating stories for Rasa Core)
 
 ### parse_input(input_path)
 This function is provided as a facilitator for experimentation purposes. It is the first function called by generate.
